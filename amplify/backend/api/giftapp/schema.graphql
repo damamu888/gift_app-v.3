@@ -1,0 +1,14 @@
+type Gift @model @auth(rules: [{allow: owner}]) {
+  id: ID!
+  name: String!
+  isSelected: Boolean!
+  personID: ID! @index(name: "byPerson")
+  receiver: Person @belongsTo(fields: ["personID"])
+}
+
+type Person @model @auth(rules: [{allow: owner}]) {
+  id: ID!
+  name: String!
+  gifts: [Gift] @hasMany(indexName: "byPerson", fields: ["id"])
+}
+ 
